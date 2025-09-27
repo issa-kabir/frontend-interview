@@ -9,6 +9,37 @@
   font-weight: 800;
 }
 
+.logoContainer {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
 .logo path {
   fill: #fb534a;
+}
+
+.tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 1000;
+  margin-top: 8px;
+}
+
+.tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-bottom-color: #333;
 }
