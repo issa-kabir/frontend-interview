@@ -5,6 +5,7 @@ import { Button } from "./ui/Button/Button";
 
 const Applications = ({ pageNumber, setPageNumber }) => {
   const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchApplications = async () => {
     fetch(`http://localhost:3001/api/applications?_page=${pageNumber}&_limit=5`).then((response) => {
@@ -13,13 +14,15 @@ const Applications = ({ pageNumber, setPageNumber }) => {
       }
       return response.json();
     }).then((data) => {
+      console.log("data", data);
       setApplications(data);
+      setLoading(false);
       if (data.length === 0) {
         setPageNumber(1);
       }
     }).catch((err) => {
-      console.error(err.message);
-      setTimeout(fetchApplications, 500); // Retry after 500 milliseconds
+      console.log("error");
+      console.log(err.message);
     });
   };
 
@@ -28,9 +31,11 @@ const Applications = ({ pageNumber, setPageNumber }) => {
   }, [pageNumber]);
 
   return (
-    <div className={styles.Applications}>
-      {applications.length == 0 && <SingleApplication application={{}} />}
-      {applications.length > 0 && applications.map((app) => (
+    loading === true ? (
+        <div className={styles.loader}></div>
+    ) : (
+      <div className={styles.Applications}>
+        {applications.length > 0 && applications.map((app) => (
         <SingleApplication key={app.guid} application={app} />
       ))}
       <Button onClick={(event) => {
@@ -40,6 +45,7 @@ const Applications = ({ pageNumber, setPageNumber }) => {
         Load More
       </Button>
     </div>
+    )
   );
 };
 
